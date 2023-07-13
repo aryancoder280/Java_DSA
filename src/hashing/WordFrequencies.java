@@ -1,68 +1,52 @@
+package hashing;
 
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Scanner;
+import java.util.TreeMap;
+import java.util.Vector;
 
-import java.io.*;
-import java.util.*;
-//import crio.ds.List.ListNode;
-class ListNode {
-	   public int val; 
-	   public ListNode next;
-	   public ListNode(int x) { val = x; next = null; }
+class Pair {
+    private String x;
+    private Integer y;
+    Pair(String x, Integer y) {
+        this.x = x;
+        this.y = y;
+    }
+    public String getX() {
+        return x;
+    }
+    public Integer getY() {
+        return y;
+    }
+}
+
+class WordFrequencies {
+	public static Vector<Pair> wordFrequencies(String [] words) {
+        Map<String,Integer>map = new TreeMap<String,Integer>();
+        for(String s:words) {
+            map.putIfAbsent(s,1);
+            map.put(s,map.get(s)+1);
+        }
+        Vector<Pair>ans = new Vector<Pair>();
+        for(Entry<String,Integer>e:map.entrySet()) {
+            Pair p = new Pair(e.getKey(),e.getValue());
+            ans.add(p);
+        }
+        return ans;
 	}
-
-class Solution {
-  public static ListNode partition( ListNode head , int x) {
-    ListNode result = null;
-    Set<Integer>smaller = new LinkedHashSet<Integer>();
-    Set<Integer>greater = new LinkedHashSet<Integer>();
-    ListNode temp = head;
-    int equal = 0;
-    while(temp!=null) {
-      if(temp.val>x) {
-        greater.add(temp.val);
-      }
-      else if(temp.val<x){
-        smaller.add(temp.val);
-      }
-      else{
-        equal++;
-      }
-    }
-    for(Integer i:smaller) {
-      ListNode temp1 = new ListNode(i);
-      if(result == null) {
-        result = temp1;
-        head = temp1;
-      }
-      else {
-        result.next = temp1;
-        result = result.next;
-      }
-    }
-    while(equal!=0) {
-      ListNode temp2 = new ListNode(i);
-      if(result == null) {
-        result = temp2;
-        head = temp2;
-      }
-      else {
-        result.next = temp2;
-        result = result.next;
-      }
-      equal--;
-    }
-    for(Integer i:greater) {
-       ListNode temp3 = new ListNode(i);
-      if(result == null) {
-        result = temp3;
-        head = temp3;
-      }
-      else {
-        result.next = temp3;
-        result = result.next;
-      }
-    }
-    return head;
-  }
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int n = sc.nextInt();
+		String [] inp = new String [n];
+		for (int i = 0; i < n; i++) {
+			inp[i] = sc.next();
+		}
+		Vector<Pair> ans = wordFrequencies(inp);
+		for (int i = 0; i < ans.size(); i++) {
+			System.out.println(ans.get(i).getX() + " " + ans.get(i).getY());
+		}
+	}
 }
 
 /* 
